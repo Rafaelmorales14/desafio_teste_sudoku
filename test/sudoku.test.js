@@ -1,5 +1,4 @@
-import { test } from 'node:test';
-import assert from 'node:assert/strict';
+import { test, expect } from '@jest/globals';
 import { validarSolucao } from '../src/jogo.js';
 
 const grade = (...linhas) => linhas.map(linha => [...linha].map(Number));
@@ -16,27 +15,27 @@ const pistas = [
 ];
 
 test('S01 aceita solução completa que preserva as pistas', () => {
-    assert.equal(validarSolucao(solucao, pistas), true);
+    expect(validarSolucao(solucao, pistas)).toBe(true);
 });
 
 test('S02 rejeita grade com cinco linhas ou com uma linha curta', () => {
-    assert.equal(validarSolucao(solucao.slice(0, 5), pistas), false);
+    expect(validarSolucao(solucao.slice(0, 5), pistas)).toBe(false);
 
     const irregular = solucao.map((linha, i) => i === 0 ? linha.slice(0, 5) : linha);
-    assert.equal(validarSolucao(irregular, pistas), false);
+    expect(validarSolucao(irregular, pistas)).toBe(false);
 });
 
 test('S03 rejeita número não binário, string e célula vazia na solução', () => {
     for (const valor of [2, '1', null]) {
         const tentativa = structuredClone(solucao);
         tentativa[0][1] = valor;
-        assert.equal(validarSolucao(tentativa, pistas), false);
+        expect(validarSolucao(tentativa, pistas)).toBe(false);
     }
 });
 
 test('S04 rejeita solução estruturalmente válida que contraria uma pista', () => {
     const invertida = solucao.map(linha => linha.map(valor => 1 - valor));
-    assert.equal(validarSolucao(invertida, pistas), false);
+    expect(validarSolucao(invertida, pistas)).toBe(false);
 });
 
 const semPistas = Array.from({ length: 6 }, () => Array(6).fill(null));
@@ -49,7 +48,7 @@ const violacoes = [
 
 for (const [id, regra, tentativa] of violacoes) {
     test(`${id} rejeita ${regra} e a violação equivalente nas colunas`, () => {
-        assert.equal(validarSolucao(tentativa, semPistas), false);
-        assert.equal(validarSolucao(transpor(tentativa), semPistas), false);
+        expect(validarSolucao(tentativa, semPistas)).toBe(false);
+        expect(validarSolucao(transpor(tentativa), semPistas)).toBe(false);
     });
 }
