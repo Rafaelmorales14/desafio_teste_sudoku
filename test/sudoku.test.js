@@ -52,3 +52,19 @@ for (const [id, regra, tentativa] of violacoes) {
         expect(validarSolucao(transpor(tentativa), semPistas)).toBe(false);
     });
 }
+
+test('S08 rejeita pistas com quantidade incorreta de linhas ou colunas', () => {
+    expect(validarSolucao(solucao, pistas.slice(0, 5))).toBe(false);
+    expect(validarSolucao(solucao, [...pistas, [...pistas[0]]])).toBe(false);
+    const linhaCurta = structuredClone(pistas);
+    linhaCurta[2].pop();
+    expect(validarSolucao(solucao, linhaCurta)).toBe(false);
+});
+
+test('S09 rejeita conteúdo inválido nas pistas', () => {
+    for (const valor of [2, '1', undefined]) {
+        const invalidas = structuredClone(pistas);
+        invalidas[0][1] = valor;
+        expect(validarSolucao(solucao, invalidas)).toBe(false);
+    }
+});

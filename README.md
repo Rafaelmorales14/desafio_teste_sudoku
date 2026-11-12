@@ -17,6 +17,7 @@ Em `src/jogo.js`, exporte a função síncrona `validarSolucao(grade, pistas)`. 
 - **S05** rejeita três números iguais consecutivos na linha e, com a grade transposta, na coluna.
 - **S06** rejeita uma linha sem três zeros e três uns e testa o equivalente na coluna.
 - **S07** rejeita linhas duplicadas e testa o equivalente nas colunas.
+- **S08–S09** rejeitam pistas com dimensões ou conteúdo inválidos.
 
 ## Execução
 
